@@ -116,19 +116,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtContraseña" />
 
-    <TextView
-        android:id="@+id/crearUser"
+    <Button
+        android:id="@+id/btnRegis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="44dp"
         android:text="Registrar"
-        android:textColorHighlight="#F3F3F3"
-        android:textColorHint="#FFFFFF"
-        android:textColorLink="#F6F5F5"
-        android:textSize="16sp"
+        android:textColorHighlight="#A368AE"
+        android:textColorLink="#B5FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnIngresar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnIngresar"
+        app:rippleColor="#F4DADA"
+        app:strokeColor="#806D6D" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
