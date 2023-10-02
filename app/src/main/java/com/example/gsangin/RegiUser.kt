@@ -1,12 +1,15 @@
 package com.example.gsangin
 
 import android.content.Context
+
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 
 class RegiUser : AppCompatActivity() {
     private lateinit var nombreEditText: EditText
@@ -35,24 +38,49 @@ class RegiUser : AppCompatActivity() {
 
             // Verificar que la contraseña y la confirmación de contraseña sean iguales
             if (contraseña == confirmarContraseña) {
-                // Las contraseñas coinciden, guardar los datos en las preferencias compartidas
-                val editor = sharedPreferences.edit()
-                editor.putString("nombre", nombre)
-                editor.putString("usuario", usuario)
-                editor.putString("contraseña", contraseña)
-                editor.apply()
+                // Obtener la lista de usuarios registrados (si existe)
+                val usersList = getUsersList()
 
-                Toast.makeText(this, "Datos guardados", Toast.LENGTH_SHORT).show()
+                // Verificar si el nombre de usuario ya existe
+                if (isUsernameTaken(usersList, usuario)) {
+                    Toast.makeText(this, "El nombre de usuario ya está en uso", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Agregar el nuevo usuario a la lista
+                    val newUser = User(nombre, usuario, contraseña)
+                    usersList.add(newUser)
 
-                // Limpiar los campos
-                nombreEditText.text.clear()
-                usuarioEditText.text.clear()
-                contraseñaEditText.text.clear()
-                confirmarContraseñaEditText.text.clear()
+                    // Guardar la lista actualizada en las preferencias compartidas
+                    saveUsersList(usersList)
+
+                    Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
+
+                    // Limpiar los campos
+                    nombreEditText.text.clear()
+                    usuarioEditText.text.clear()
+                    contraseñaEditText.text.clear()
+                    confirmarContraseñaEditText.text.clear()
+                }
             } else {
                 // Las contraseñas no coinciden, mostrar un mensaje de error
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }
         }
     }
-        }
+
+    private fun getUsersList(): MutableList<User> {
+        val json = sharedPreferences.getString("usersList", "[]")
+        val type = object : TypeToken<MutableList<User>>() {}.type
+        return Gson().fromJson(json, type) ?: mutableListOf()
+    }
+
+    private fun saveUsersList(usersList: MutableList<User>) {
+        val json = Gson().toJson(usersList)
+        val editor = sharedPreferences.edit()
+        editor.putString("usersList", json)
+        editor.apply()
+    }
+
+    private fun isUsernameTaken(usersList: MutableList<User>, username: String): Boolean {
+        return usersList.any { it.usuario == username }
+    }
+}

@@ -9,6 +9,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.reflect.TypeToken
+
+import com.google.gson.Gson
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var userName: EditText
@@ -27,18 +31,26 @@ class MainActivity : AppCompatActivity() {
         Ingresartxt = findViewById(R.id.btnIngresar)
         btnAbrirSegundaActividad = findViewById(R.id.btnRegis)
 
+        // Verificar si el usuario ya está autenticado
+        if (isLoggedIn()) {
+            goToMainMenu()
+        }
+
         Ingresartxt.setOnClickListener {
             val username = userName.text.toString()
             val password = Contraseñatxt.text.toString()
 
-            val savedUsername = sharedPreferences.getString("usuario", "")
-            val savedPassword = sharedPreferences.getString("contraseña", "")
+            val usersList = getUsersList()
 
-            if (username == savedUsername && password == savedPassword) {
+            val user = usersList.find { it.usuario == username }
+
+            if (user != null && user.contraseña == password) {
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, MenuPrincipal::class.java)
-                startActivity(intent)
+                // Guardar el estado de autenticación
+                setLoggedIn(true)
+
+                goToMainMenu()
             } else {
                 Toast.makeText(this, "Usuario o Contraseña Incorrecta", Toast.LENGTH_SHORT).show()
             }
@@ -48,4 +60,27 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegiUser::class.java)
             startActivity(intent)
         }
-    }}
+    }
+
+    private fun isLoggedIn(): Boolean {
+        return sharedPreferences.getBoolean("isLoggedIn", false)
+    }
+
+    private fun setLoggedIn(loggedIn: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", loggedIn)
+        editor.apply()
+    }
+
+    private fun getUsersList(): MutableList<User> {
+        val json = sharedPreferences.getString("usersList", "[]")
+        val type = object : TypeToken<MutableList<User>>() {}.type
+        return Gson().fromJson(json, type) ?: mutableListOf()
+    }
+
+    private fun goToMainMenu() {
+        val intent = Intent(this, MenuPrincipal::class.java)
+        startActivity(intent)
+        finish() // Evitar que el usuario regrese a esta actividad con el botón "Atrás"
+    }
+}
