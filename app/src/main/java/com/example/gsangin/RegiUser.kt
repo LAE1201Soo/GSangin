@@ -36,20 +36,17 @@ class RegiUser : AppCompatActivity() {
             val contraseña = contraseñaEditText.text.toString()
             val confirmarContraseña = confirmarContraseñaEditText.text.toString()
 
-            // Verificar que la contraseña y la confirmación de contraseña sean iguales
-            if (contraseña == confirmarContraseña) {
-                // Obtener la lista de usuarios registrados (si existe)
+            // Verificar si algún campo está vacío
+            if (nombre.isEmpty() || usuario.isEmpty() || contraseña.isEmpty() || confirmarContraseña.isEmpty()) {
+                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+            } else if (contraseña == confirmarContraseña) {
                 val usersList = getUsersList()
 
-                // Verificar si el nombre de usuario ya existe
                 if (isUsernameTaken(usersList, usuario)) {
                     Toast.makeText(this, "El nombre de usuario ya está en uso", Toast.LENGTH_SHORT).show()
                 } else {
-                    // Agregar el nuevo usuario a la lista
                     val newUser = User(nombre, usuario, contraseña)
                     usersList.add(newUser)
-
-                    // Guardar la lista actualizada en las preferencias compartidas
                     saveUsersList(usersList)
 
                     Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
@@ -61,7 +58,6 @@ class RegiUser : AppCompatActivity() {
                     confirmarContraseñaEditText.text.clear()
                 }
             } else {
-                // Las contraseñas no coinciden, mostrar un mensaje de error
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }
         }
