@@ -5,19 +5,50 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 
 class MenuPrincipal : AppCompatActivity() {
     private lateinit var cerrarSesionButton: Button  // Agrega un botón para cerrar sesión
+    private lateinit var imgSincronizaButton: ImageButton
+    private lateinit var imgVentas: ImageButton
+    private lateinit var imagPedidos: ImageButton
+    private lateinit var imgInve: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_principal)
 
-        cerrarSesionButton = findViewById(R.id.btnCerrarSesion)  // Asigna el botón
+
+
+        cerrarSesionButton = findViewById(R.id.btnCerrarSesion)
+        imgSincronizaButton = findViewById(R.id.imgSincroniza)
+        imgVentas= findViewById(R.id.imgventas)
+        imagPedidos= findViewById(R.id.imgPedidos)
+        imgInve= findViewById(R.id.imgInventario)
         cerrarSesionButton.setOnClickListener {
             // Realiza el cierre de sesión
             setLoggedIn(false)  // Establece el estado de autenticación como "no autenticado"
             goToMainActivity()  // Vuelve a la actividad principal (MainActivity)
+        }
+        imgSincronizaButton.setOnClickListener {
+            // Abre la actividad de sincronización
+            val intent = Intent(this, Sincronizar::class.java)
+            startActivity(intent)
+        }
+        imgVentas.setOnClickListener {
+            // Abre la actividad de tempo
+            val intent = Intent(this, Temporal::class.java)
+            startActivity(intent)
+        }
+        imagPedidos.setOnClickListener {
+            // Abre la actividad de tempo
+            val intent = Intent(this, Temporal::class.java)
+            startActivity(intent)
+        }
+        imgInve.setOnClickListener {
+            // Abre la actividad de tempo
+            val intent = Intent(this, Temporal::class.java)
+            startActivity(intent)
         }
     }
 

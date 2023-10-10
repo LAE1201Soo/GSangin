@@ -13,6 +13,12 @@
         android:theme="@style/Theme.GSangin"
         tools:targetApi="31">
         <activity
+            android:name=".Temporal"
+            android:exported="false" />
+        <activity
+            android:name=".Sincronizar"
+            android:exported="false" />
+        <activity
             android:name=".MenuPrincipal"
             android:exported="false" />
         <activity
