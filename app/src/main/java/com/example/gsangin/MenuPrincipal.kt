@@ -47,7 +47,7 @@ class MenuPrincipal : AppCompatActivity() {
         }
         imgInve.setOnClickListener {
             // Abre la actividad de tempo
-            val intent = Intent(this, Temporal::class.java)
+            val intent = Intent(this, ListaProductos::class.java)
             startActivity(intent)
         }
     }
