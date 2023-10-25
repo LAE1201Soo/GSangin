@@ -30,6 +30,7 @@ class MenuPrincipal : AppCompatActivity() {
             setLoggedIn(false)  // Establece el estado de autenticación como "no autenticado"
             goToMainActivity()  // Vuelve a la actividad principal (MainActivity)
         }
+    
         imgSincronizaButton.setOnClickListener {
             // Abre la actividad de sincronización
             val intent = Intent(this, Sincronizar::class.java)

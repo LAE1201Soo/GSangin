@@ -8,6 +8,6 @@ data class ClientesModel(
     val id: Int,
     val nombre: String,
     val numero: String,
-    val rason_social: String,
+    val razon_social: String,
     val tel: String
 )

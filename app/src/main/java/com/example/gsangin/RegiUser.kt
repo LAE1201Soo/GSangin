@@ -56,6 +56,8 @@ class RegiUser : AppCompatActivity() {
                     usuarioEditText.text.clear()
                     contraseñaEditText.text.clear()
                     confirmarContraseñaEditText.text.clear()
+
+                    finish()
                 }
             } else {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()

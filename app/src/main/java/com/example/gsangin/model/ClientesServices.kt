@@ -1,11 +1,13 @@
 package com.example.gsangin.model
+import android.util.Log
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ClientesServices {
-    @GET("")
-    fun listClientesData(): Call<ClientesModel>
+    @GET("clientes.php")
+    fun listClientesData(): Call<List<ClientesModel>> // Cambio en el tipo de retorno
+
 
 
 }
