@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+
+    <TextView
+        android:id="@+id/ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="id:"
+        android:textSize="18sp"
+        android:textColor="#000" />
+
+
+
+    <TextView
+        android:id="@+id/nombreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+
+    <TextView
+        android:id="@+id/razonSocialTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Razón Social del Cliente"
+        android:textSize="14sp"
+        android:textColor="#666" />
+    <TextView
+        android:id="@+id/calle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calle:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+    <TextView
+        android:id="@+id/CP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CP:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+    <TextView
+        android:id="@+id/Ciudad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ciudad:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+    <TextView
+        android:id="@+id/Estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+    <TextView
+        android:id="@+id/Numero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Numero:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+    <TextView
+        android:id="@+id/Tel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Telefono:"
+        android:textSize="14sp"
+        android:textColor="#666" />
+
+</LinearLayout>

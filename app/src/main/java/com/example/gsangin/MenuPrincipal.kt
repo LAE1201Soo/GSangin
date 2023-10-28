@@ -38,7 +38,7 @@ class MenuPrincipal : AppCompatActivity() {
         }
         imgVentas.setOnClickListener {
             // Abre la actividad de tempo
-            val intent = Intent(this, Temporal::class.java)
+            val intent = Intent(this, ListaClientes::class.java)
             startActivity(intent)
         }
         imagPedidos.setOnClickListener {

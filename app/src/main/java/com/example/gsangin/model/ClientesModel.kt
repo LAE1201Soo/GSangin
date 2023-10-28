@@ -3,7 +3,7 @@ package com.example.gsangin.model
 data class ClientesModel(
     val calle: String,
     val cp: String,
-    val cuidad: String,
+    val ciudad: String,
     val estado: String,
     val id: Int,
     val nombre: String,
