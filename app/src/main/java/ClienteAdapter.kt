@@ -20,7 +20,7 @@ class ClienteAdapter (private val clientes: List<ClienteSQLiteModel>) : Recycler
         val NumeroTextView: TextView = itemView.findViewById(R.id.Numero)
         val TelTextView: TextView = itemView.findViewById(R.id.Tel)
 
-        // Agrega más vistas según tu diseño
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ClientesServices {
-    @GET("clientes.php")
+    @GET("SWclientes.php")
     fun listClientesData(): Call<List<ClientesModel>> // Cambio en el tipo de retorno
 
 
