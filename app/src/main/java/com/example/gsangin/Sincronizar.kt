@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gsangin.model.ClientesObj
+import com.example.gsangin.model.ProductosObj
 import com.example.gsangin.model.bdAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,9 +25,13 @@ class Sincronizar : AppCompatActivity() {
 
         btnSincronizar = findViewById(R.id.btnSincronizarD)
 
+
+
+
         btnSincronizar.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
                 try {
+                    // Sincronizar clientes
                     val clientesResponse = ClientesObj.service.listClientesData().execute()
 
                     if (clientesResponse.isSuccessful) {
@@ -58,42 +63,60 @@ class Sincronizar : AppCompatActivity() {
                                 } else {
                                     Log.e("Sincronizar", "Error al insertar cliente: ${cliente.nombre}")
                                 }
-
-                                // Llama a insertCliente para guardar el registro en la base de datos
-                                // esto estaba insertando dos veces olvide quitarlo pero sirve tambien asi
-                               /* val clienteSQLiteModel = ClienteSQLiteModel(
-                                    cliente.id,
-                                    cliente.nombre,
-                                    cliente.razon_social,
-                                    cliente.calle,
-                                    cliente.cp,
-                                    cliente.ciudad,
-                                    cliente.estado,
-                                    cliente.numero,
-                                    cliente.tel
-                                )
-                                val result = dbHelper.insertCliente(clienteSQLiteModel)*/
-                                /*if (result.toInt() != -1) {
-                                    Log.d("Sincronizar", "Cliente insertado en insertCliente: ${cliente.nombre}")
-                                } else {
-                                    Log.e("Sincronizar", "Error al insertar cliente en insertCliente: ${cliente.nombre}")
-                                }*/
                             }
-                            db.close()
 
-                            // Muestra un mensaje de éxito en el hilo de la interfaz de usuario
-                            runOnUiThread {
-                                Toast.makeText(
-                                    this@Sincronizar,
-                                    "Conexión exitosa",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            // Sincronizar productos
+                            val productosResponse = ProductosObj.service.listProductosData().execute()
+
+                            if (productosResponse.isSuccessful) {
+                                val bodyProductos = productosResponse.body()
+                                if (bodyProductos != null) {
+                                    // Borra los datos existentes en la tabla de productos antes de guardar los nuevos datos
+                                    db.execSQL("DELETE FROM ${bdAdapter.TABLE_PRODUCTOS}")
+
+                                    for (producto in bodyProductos) {
+                                        val values = ContentValues().apply {
+                                            put(bdAdapter.COLUMN_PRODUCTO_ID, producto.id)
+                                            put(bdAdapter.COLUMN_CLAVE, producto.clave)
+                                            put(bdAdapter.COLUMN_PRODUCTO_NOMBRE, producto.nombre)
+                                            put(bdAdapter.COLUMN_DESCRIPCION, producto.descripcion)
+                                            put(bdAdapter.COLUMN_PRECIO, producto.precio)
+                                            put(bdAdapter.COLUMN_IVA, producto.iva)
+                                            put(bdAdapter.COLUMN_IEPS, producto.ieps)
+                                        }
+
+                                        // Inserta el registro en la tabla de productos
+                                        val rowId = db.insert(bdAdapter.TABLE_PRODUCTOS, null, values)
+                                        if (rowId.toInt() != -1) {
+                                            Log.d("SincronizarProducto", "Producto insertado: ${producto.nombre}")
+                                        } else {
+                                            Log.e("SincronizarProducto", "Error al insertar producto: ${producto.nombre}")
+                                        }
+                                    }
+
+                                    // Cierra la base de datos
+                                    db.close()
+
+                                    // Muestra un mensaje de éxito en el hilo de la interfaz de usuario
+                                    runOnUiThread {
+                                        Toast.makeText(
+                                            this@Sincronizar,
+                                            "Conexión exitosa",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            } else {
+                                Log.e(
+                                    "Sincronizar",
+                                    "Error en la solicitud HTTP de productos: ${productosResponse.code()} ${productosResponse.message()}"
+                                )
                             }
                         }
                     } else {
                         Log.e(
                             "Sincronizar",
-                            "Error en la solicitud HTTP: ${clientesResponse.code()} ${clientesResponse.message()}"
+                            "Error en la solicitud HTTP de clientes: ${clientesResponse.code()} ${clientesResponse.message()}"
                         )
                     }
                 } catch (e: Exception) {
@@ -107,9 +130,8 @@ class Sincronizar : AppCompatActivity() {
                     }
                 }
             }
-
-
         }
+
 
     }
 }

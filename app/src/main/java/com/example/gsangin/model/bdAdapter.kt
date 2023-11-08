@@ -7,25 +7,34 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.gsangin.ClienteSQLiteModel
 
-class bdAdapter  (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         const val DATABASE_NAME = "aplicacionK.db"
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
 
-        // Define la tabla y las columnas que llevara la bd
+        // Define la tabla y las columnas que llevará la base de datos para clientes
         const val TABLE_CLIENTES = "clientes"
         const val COLUMN_ID = "id"
         const val COLUMN_NOMBRE = "nombre"
         const val COLUMN_RAZON_SOCIAL = "razon_social"
-        const val COLUMN_CALLE ="calle"
-        const val COLUMN_CP ="cp"
-        const val COLUMN_CIUDAD ="ciudad"
-        const val COLUMN_ESTADO ="estado"
-        const val COLUMN_NUMERO ="numero"
-        const val COLUMN_TELEFONO ="tel"
+        const val COLUMN_CALLE = "calle"
+        const val COLUMN_CP = "cp"
+        const val COLUMN_CIUDAD = "ciudad"
+        const val COLUMN_ESTADO = "estado"
+        const val COLUMN_NUMERO = "numero"
+        const val COLUMN_TELEFONO = "tel"
 
+        // Define la tabla y las columnas que llevará la base de datos para productos
+        const val TABLE_PRODUCTOS = "productos"
+        const val COLUMN_PRODUCTO_ID = "id"  //
+        const val COLUMN_CLAVE = "clave"
+        const val COLUMN_PRODUCTO_NOMBRE = "nombre"  //
+        const val COLUMN_DESCRIPCION = "descripcion"
+        const val COLUMN_PRECIO = "precio"
+        const val COLUMN_IVA = "iva"
+        const val COLUMN_IEPS = "ieps"
 
-        // Crear la tabla
+        // Crear la tabla para clientes
         private const val CREATE_TABLE_CLIENTES = "CREATE TABLE $TABLE_CLIENTES (" +
                 "$COLUMN_ID INTEGER PRIMARY KEY," +
                 "$COLUMN_NOMBRE TEXT," +
@@ -37,17 +46,29 @@ class bdAdapter  (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
                 "$COLUMN_NUMERO TEXT," +
                 "$COLUMN_TELEFONO TEXT" +
                 ")"
+
+        // Crear la tabla para productos
+        private const val CREATE_TABLE_PRODUCTOS = "CREATE TABLE $TABLE_PRODUCTOS (" +
+                "$COLUMN_PRODUCTO_ID INTEGER PRIMARY KEY," +
+                "$COLUMN_CLAVE TEXT," +
+                "$COLUMN_PRODUCTO_NOMBRE TEXT," +
+                "$COLUMN_DESCRIPCION TEXT," +
+                "$COLUMN_PRECIO REAL," +
+                "$COLUMN_IVA REAL," +
+                "$COLUMN_IEPS REAL" +
+                ")"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE_CLIENTES)
+        db.execSQL(CREATE_TABLE_PRODUCTOS)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_CLIENTES")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_PRODUCTOS")
         onCreate(db)
     }
-
     // Función para insertar un cliente en la base de datos
     fun insertCliente(cliente: ClienteSQLiteModel): Long {
         val db = this.writableDatabase
@@ -65,6 +86,8 @@ class bdAdapter  (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         db.close()
         return id
     }
+
+
     // Función para obtener todos los clientes de la base de datos
 
     @SuppressLint("Range")
@@ -101,6 +124,40 @@ class bdAdapter  (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, n
         db.close()
 
         return clientesList
+    }
+    // Función para obtener todos los productos de la base de datos
+    @SuppressLint("Range")
+    fun getProductosList(): List<ProductoSQLiteModel> {
+        val productosList = mutableListOf<ProductoSQLiteModel>()
+        val db = this.readableDatabase
+
+        val cursor = db.query(
+            TABLE_PRODUCTOS,
+            null,  // Todas las columnas
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        while (cursor.moveToNext()) {
+            val id = cursor.getInt(cursor.getColumnIndex(COLUMN_PRODUCTO_ID))
+            val clave = cursor.getString(cursor.getColumnIndex(COLUMN_CLAVE))
+            val nombre = cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCTO_NOMBRE))
+            val descripcion = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPCION))
+            val precio = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRECIO))
+            val iva = cursor.getDouble(cursor.getColumnIndex(COLUMN_IVA))
+            val ieps = cursor.getDouble(cursor.getColumnIndex(COLUMN_IEPS))
+
+            val producto = ProductoSQLiteModel(id, clave, nombre, descripcion, precio, iva, ieps)
+            productosList.add(producto)
+        }
+
+        cursor.close()
+        db.close()
+
+        return productosList
     }
 
 

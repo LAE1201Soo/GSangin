@@ -7,6 +7,7 @@
     tools:context=".ListaProductos">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recliclerProductos"
         android:layout_width="224dp"
         android:layout_height="398dp"
         app:layout_constraintBottom_toBottomOf="parent"
