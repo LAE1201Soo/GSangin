@@ -5,7 +5,7 @@ data class ProductoSQLiteModel(
     val clave: String,
     val nombre: String,
     val descripcion: String,
-    val precio: Double,// verificar que onda con estos
-    val iva: Double,
-    val ieps: Double
+    val precio: String,// verificar que onda con estos
+    val iva: String,
+    val ieps: String
 )

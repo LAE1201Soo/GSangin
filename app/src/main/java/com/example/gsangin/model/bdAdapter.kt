@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.gsangin.ClienteSQLiteModel
+import java.util.Locale
 
 class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
@@ -150,7 +151,12 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             val iva = cursor.getDouble(cursor.getColumnIndex(COLUMN_IVA))
             val ieps = cursor.getDouble(cursor.getColumnIndex(COLUMN_IEPS))
 
-            val producto = ProductoSQLiteModel(id, clave, nombre, descripcion, precio, iva, ieps)
+            // Formatea los valores con dos decimales
+            val precioFormateado = String.format(Locale.US, "%.2f", precio)
+            val ivaFormateado = String.format(Locale.US, "%.2f", iva)
+            val iepsFormateado = String.format(Locale.US, "%.2f", ieps)
+
+            val producto = ProductoSQLiteModel(id, clave, nombre, descripcion, precioFormateado, ivaFormateado, iepsFormateado)
             productosList.add(producto)
         }
 
@@ -159,7 +165,6 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
         return productosList
     }
-
 
 
 }

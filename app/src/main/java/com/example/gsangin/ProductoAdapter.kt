@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.model.ProductoSQLiteModel
 
-class ProductoAdapter(private val productos: List<ProductoSQLiteModel>) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
+class ProductoAdapter(private var productos: List<ProductoSQLiteModel>) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val idTextView: TextView = itemView.findViewById(R.id.productoID)
@@ -37,5 +37,11 @@ class ProductoAdapter(private val productos: List<ProductoSQLiteModel>) : Recycl
 
     override fun getItemCount(): Int {
         return productos.size
+    }
+
+    // Este método permite actualizar la lista de productos en el adaptador
+    fun updateList(newList: List<ProductoSQLiteModel>) {
+        productos = newList
+        notifyDataSetChanged()
     }
 }
