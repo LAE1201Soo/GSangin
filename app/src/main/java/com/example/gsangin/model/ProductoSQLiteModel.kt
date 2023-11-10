@@ -1,5 +1,7 @@
 package com.example.gsangin.model
 
+import java.io.Serializable
+
 data class ProductoSQLiteModel(
     val id: Int,  //
     val clave: String,

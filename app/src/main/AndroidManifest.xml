@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".model.Pedido1"
+            android:exported="false" />
+        <activity
             android:name=".ListaProductos"
             android:exported="false" />
         <activity
@@ -44,6 +47,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>

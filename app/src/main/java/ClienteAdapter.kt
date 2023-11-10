@@ -6,10 +6,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.ClienteSQLiteModel
 import com.example.gsangin.R
 
-class ClienteAdapter (private val clientes: List<ClienteSQLiteModel>) : RecyclerView.Adapter<ClienteAdapter.ViewHolder>() {
+class ClienteAdapter(private val clientes: List<ClienteSQLiteModel>) :
+    RecyclerView.Adapter<ClienteAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Define las vistas de un elemento de la lista, por ejemplo:
+    // Interfaz para manejar los clics en los elementos
+    interface OnItemClickListener {
+        fun onItemClick(cliente: ClienteSQLiteModel)
+    }
+
+    private var listener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.listener = onItemClickListener
+    }
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val idTextView: TextView = itemView.findViewById(R.id.ID)
         val nombreTextView: TextView = itemView.findViewById(R.id.nombreTextView)
         val razonSocialTextView: TextView = itemView.findViewById(R.id.razonSocialTextView)
@@ -20,7 +31,15 @@ class ClienteAdapter (private val clientes: List<ClienteSQLiteModel>) : Recycler
         val NumeroTextView: TextView = itemView.findViewById(R.id.Numero)
         val TelTextView: TextView = itemView.findViewById(R.id.Tel)
 
-
+        init {
+            // Agrega un clic al elemento del RecyclerView
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener?.onItemClick(clientes[position])
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,8 +59,6 @@ class ClienteAdapter (private val clientes: List<ClienteSQLiteModel>) : Recycler
         holder.EstadoTextView.text=cliente.estado
         holder.NumeroTextView.text=cliente.numero
         holder.TelTextView.text=cliente.tel
-
-        // Vincula más datos según tu diseño
     }
 
     override fun getItemCount(): Int {

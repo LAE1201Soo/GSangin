@@ -1,5 +1,7 @@
 package com.example.gsangin
 
+import java.io.Serializable
+
 data class ClienteSQLiteModel(
     val id: Int,
     val nombre: String,
@@ -10,4 +12,4 @@ data class ClienteSQLiteModel(
     val estado: String,
     val numero: String,
     val tel: String
-)
+): Serializable
