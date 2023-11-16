@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.model.ProductoSQLiteModel
 import com.example.gsangin.model.bdAdapter
 
-class ListaProductos : AppCompatActivity() {
+class ListaProductos : AppCompatActivity(), ProductoAdapter.ProductoClickListener {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ProductoAdapter
     private lateinit var productosList: List<ProductoSQLiteModel>
-    private lateinit var productosFiltrados: List<ProductoSQLiteModel> // Lista filtrada
+    private lateinit var productosFiltrados: List<ProductoSQLiteModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,8 @@ class ListaProductos : AppCompatActivity() {
         // Inicializa la lista filtrada con la lista original al principio
         productosFiltrados = productosList
 
-        adapter = ProductoAdapter(productosFiltrados)
+        // Pasa la instancia actual de la actividad como listener al adaptador
+        adapter = ProductoAdapter(productosFiltrados, this)
         recyclerView.adapter = adapter
 
         val editTextSearch = findViewById<EditText>(R.id.txtBuscar)
@@ -52,5 +55,12 @@ class ListaProductos : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
+
+    // Implementación de la interfaz ProductoClickListener
+    override fun onProductoClick(producto: ProductoSQLiteModel) {
+        // Aquí puedes agregar la lógica para manejar el clic en un producto
+        // Por ejemplo, puedes mostrar un Toast con el nombre del producto
+        Toast.makeText(this, "Producto clicado: ${producto.nombre}", Toast.LENGTH_SHORT).show()
     }
 }

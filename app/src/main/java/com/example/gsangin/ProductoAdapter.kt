@@ -7,8 +7,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.model.ProductoSQLiteModel
 
-class ProductoAdapter(private var productos: List<ProductoSQLiteModel>) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
+class ProductoAdapter(
+    private var productos: List<ProductoSQLiteModel>,
+    private val productoClickListener: ProductoClickListener
+) : RecyclerView.Adapter<ProductoAdapter.ViewHolder>() {
 
+    // Interfaz para manejar los clics en los productos
+    interface ProductoClickListener {
+        fun onProductoClick(producto: ProductoSQLiteModel)
+    }
+
+    // ViewHolder para contener las vistas de los elementos del RecyclerView
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val idTextView: TextView = itemView.findViewById(R.id.productoID)
         val claveTextView: TextView = itemView.findViewById(R.id.claveTextView)
@@ -26,6 +35,8 @@ class ProductoAdapter(private var productos: List<ProductoSQLiteModel>) : Recycl
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val producto = productos[position]
+
+        // Configurar los datos del producto en el ViewHolder
         holder.idTextView.text = producto.id.toString()
         holder.claveTextView.text = producto.clave
         holder.nombreTextView.text = producto.nombre
@@ -33,6 +44,11 @@ class ProductoAdapter(private var productos: List<ProductoSQLiteModel>) : Recycl
         holder.precioTextView.text = producto.precio.toString()
         holder.ivaTextView.text = producto.iva.toString()
         holder.iepsTextView.text = producto.ieps.toString()
+
+        // Manejar el clic en el elemento
+        holder.itemView.setOnClickListener {
+            productoClickListener.onProductoClick(producto)
+        }
     }
 
     override fun getItemCount(): Int {
