@@ -33,7 +33,7 @@ class PrepedidoAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.activity_pedido1, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_pedido1, parent, false)
         return ViewHolder(itemView)
     }
 
