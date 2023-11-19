@@ -1,5 +1,6 @@
 package com.example.gsangin.model
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gsangin.AnalizarPedido
 import com.example.gsangin.ClienteSQLiteModel
 import com.example.gsangin.ProductoAdapter
 import com.example.gsangin.R
@@ -145,5 +147,17 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
 
         }
     }
+
+    fun abrirOtraActividad(view: View) {
+
+        val intent = Intent(this, AnalizarPedido::class.java)
+
+        // Puedes agregar datos adicionales al Intent si es necesario
+        // intent.putExtra("clave", valor)
+
+        // Inicia la nueva actividad
+        startActivity(intent)
+    }
+
 }
 
