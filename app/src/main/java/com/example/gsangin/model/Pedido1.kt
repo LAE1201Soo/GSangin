@@ -152,10 +152,18 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
 
         val intent = Intent(this, AnalizarPedido::class.java)
 
-        // Puedes agregar datos adicionales al Intent si es necesario
-        // intent.putExtra("clave", valor)
+        // Agrega logs para verificar la lista antes de pasarla al Intent
+        Log.d("Pedido1", "Productos Seleccionados antes de pasar a la siguiente actividad:")
+        for (producto in productosSeleccionados) {
+            Log.d("Pedido1", "ID: ${producto.id}, Nombre: ${producto.nombre}")
+        }
 
-        // Inicia la nueva actividad
+        // Pasa la lista de productos seleccionados y sus cantidades como extras en el Intent
+        intent.putExtra("productosSeleccionados", ArrayList(productosSeleccionados))
+        intent.putExtra("cantidades", ArrayList(cantidades))
+
+
+
         startActivity(intent)
     }
 

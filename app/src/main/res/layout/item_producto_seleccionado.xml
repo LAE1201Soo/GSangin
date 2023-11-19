@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/productoID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="ID"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/claveTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Clave"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/nombreProductoTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Nombre"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/precioTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Precio"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/ivaTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="IVA"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/iepsTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="IEPS"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/cantidadTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Cantidad" />
+
+    <EditText
+        android:id="@+id/cantidadEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number"
+        android:hint="Ingrese la cantidad" />
+</LinearLayout>

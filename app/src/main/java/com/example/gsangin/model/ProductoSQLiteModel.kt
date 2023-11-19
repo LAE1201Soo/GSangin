@@ -10,4 +10,4 @@ data class ProductoSQLiteModel(
     val precio: String,// verificar que onda con estos
     val iva: String,
     val ieps: String
-)
+) : Serializable
