@@ -44,6 +44,10 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         val recyprepedido = findViewById<RecyclerView>(R.id.recyprepedido)
         val layoutManagerPrepedido = LinearLayoutManager(this)
         recyprepedido.layoutManager = layoutManagerPrepedido
+
+
+
+
         // Crear un objeto ProductoClickListener vacío para evitar problemas de valor nulo
         val emptyClickListener = object : ProductoAdapter.ProductoClickListener {
             override fun onProductoClick(producto: ProductoSQLiteModel) {
@@ -116,21 +120,28 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         if (index == -1) {
             // El producto no está en la lista, agrégalo
             productosSeleccionados.add(producto)
-            cantidades.add(1) // Puedes ajustar esto según tus requisitos
+            cantidades.add(1)
             Log.d("Pedido1", "1")
         } else {
-            // El producto ya está en la lista, actualiza la cantidad, por ejemplo, aumenta en 1
-            cantidades[index] += 1
+            // El producto ya está en la lista, actualiza la cantidad
+            if (cantidades[index] > 1) {
+                // Si la cantidad es mayor que 1, disminuye en 1
+                cantidades[index] -= 1
+                Log.d("Pedido1", "Disminuir cantidad en 1")
+            } else {
+                // Si la cantidad es 1, elimina el producto de la lista
+                productosSeleccionados.removeAt(index)
+                cantidades.removeAt(index)
+                Log.d("Pedido1", "Eliminar producto de la lista")
+            }
             Log.d("Pedido1", "2")
         }
+
         try {
             // Inicializa el nuevo RecyclerView
-
             val recyprepedido2 = findViewById<RecyclerView>(R.id.recyprepedido)
-
             val layoutManagerPrepedido = LinearLayoutManager(this)
             recyprepedido2.layoutManager = layoutManagerPrepedido
-
 
             // Crea un nuevo adaptador
             val adapterPrepedido2 = PrepedidoAdapter(productosSeleccionados, cantidades, this)
@@ -144,7 +155,6 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         } catch (e: Exception) {
             // Maneja la excepción aquí
             Log.e("error2", "Error al inicializar el nuevo adaptador: ${e.message}", e)
-
         }
     }
 
