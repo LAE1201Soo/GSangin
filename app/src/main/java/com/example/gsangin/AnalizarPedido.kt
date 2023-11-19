@@ -2,6 +2,7 @@ package com.example.gsangin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.model.ProductoSQLiteModel
@@ -11,6 +12,17 @@ class AnalizarPedido : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_analizar_pedido)
+
+        // Obtén la información del cliente del Intent
+        val numeroCliente = intent.getIntExtra("numeroCliente", 0)
+        val nombreCliente = intent.getStringExtra("nombreCliente")
+        // Accede a los TextViews en tu diseño
+        val numeroClienteTextView: TextView = findViewById(R.id.txtidC)
+        val nombreClienteTextView: TextView = findViewById(R.id.txtN)
+
+        // Muestra la información del cliente en los TextViews
+        numeroClienteTextView.text = "Número de Cliente: $numeroCliente"
+        nombreClienteTextView.text = "Nombre de Cliente: $nombreCliente"
 
         // Obtén la lista de productos seleccionados y sus cantidades del Intent
         val productosSeleccionados =

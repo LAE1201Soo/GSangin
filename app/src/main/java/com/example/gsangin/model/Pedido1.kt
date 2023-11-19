@@ -162,6 +162,10 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         intent.putExtra("productosSeleccionados", ArrayList(productosSeleccionados))
         intent.putExtra("cantidades", ArrayList(cantidades))
 
+        // Pasa la información del cliente como extras en el Intent
+        intent.putExtra("numeroCliente", clienteSeleccionado.id)
+        intent.putExtra("nombreCliente", clienteSeleccionado.nombre)
+
 
 
         startActivity(intent)

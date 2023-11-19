@@ -19,7 +19,7 @@ class ProductosSeleccionadosAdapter(private val productosConCantidad: List<Pair<
         val ivaTextView: TextView = itemView.findViewById(R.id.ivaTextView)
         val iepsTextView: TextView = itemView.findViewById(R.id.iepsTextView)
         val cantidadTextView: TextView = itemView.findViewById(R.id.cantidadTextView)
-        val cantidadEditText: EditText = itemView.findViewById(R.id.cantidadEditText)
+      //  val cantidadEditText: EditText = itemView.findViewById(R.id.cantidadEditText)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
