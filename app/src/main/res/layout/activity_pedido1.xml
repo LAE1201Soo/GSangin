@@ -153,14 +153,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyprepedido"
-        android:layout_width="251dp"
-        android:layout_height="159dp"
+        android:layout_width="380dp"
+        android:layout_height="115dp"
+        android:background="@drawable/bordecito"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/txtBuscar2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.218"
+        app:layout_constraintHorizontal_bias="0.838"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombreClienteTextView"
-        app:layout_constraintVertical_bias="0.411" />
+        app:layout_constraintVertical_bias="0.348" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

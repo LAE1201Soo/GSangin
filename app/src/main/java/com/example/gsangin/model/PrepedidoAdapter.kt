@@ -24,7 +24,7 @@ class PrepedidoAdapter(
         val idTextView: TextView = itemView.findViewById(R.id.productoID)
         val claveTextView: TextView = itemView.findViewById(R.id.claveTextView)
         val nombreTextView: TextView = itemView.findViewById(R.id.nombreProductoTextView)
-        val descripcionTextView: TextView = itemView.findViewById(R.id.descripcionTextView)
+        //val descripcionTextView: TextView = itemView.findViewById(R.id.descripcionTextView)
         val precioTextView: TextView = itemView.findViewById(R.id.precioTextView)
         val ivaTextView: TextView = itemView.findViewById(R.id.ivaTextView)
         val iepsTextView: TextView = itemView.findViewById(R.id.iepsTextView)
@@ -45,7 +45,7 @@ class PrepedidoAdapter(
         holder.idTextView.text = producto.id.toString()
         holder.claveTextView.text = producto.clave
         holder.nombreTextView.text = producto.nombre
-        holder.descripcionTextView.text = producto.descripcion
+       // holder.descripcionTextView.text = producto.descripcion
         holder.precioTextView.text = producto.precio.toString()
         holder.ivaTextView.text = producto.iva.toString()
         holder.iepsTextView.text = producto.ieps.toString()
