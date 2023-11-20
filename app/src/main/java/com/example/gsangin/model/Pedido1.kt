@@ -113,14 +113,14 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
             recyprepedido2.adapter = adapterPrepedido2
 
             // Actualiza el precio total después de cada clic en un producto
-            actualizarPrecioTotal()
+            actualizarPrecioSubTotal()
 
         } catch (e: Exception) {
             Log.e("error2", "Error al inicializar el nuevo adaptador: ${e.message}", e)
         }
     }
 
-    private fun calcularPrecioTotal(): Double {
+    private fun calcularPrecioSubtotal(): Double {
         var precioTotal = 0.0
 
         for (i in productosSeleccionados.indices) {
@@ -141,8 +141,8 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         return precioTotal
     }
 
-    private fun actualizarPrecioTotal() {
-        precioTotalTextView.text = "Subtotal: ${calcularPrecioTotal()}"
+    private fun actualizarPrecioSubTotal() {
+        precioTotalTextView.text = "Subtotal: ${calcularPrecioSubtotal()}"
     }
 
     fun abrirOtraActividad(view: View) {
