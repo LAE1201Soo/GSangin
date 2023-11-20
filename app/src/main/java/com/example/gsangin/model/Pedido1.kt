@@ -16,6 +16,7 @@ import com.example.gsangin.AnalizarPedido
 import com.example.gsangin.ClienteSQLiteModel
 import com.example.gsangin.ProductoAdapter
 import com.example.gsangin.R
+import java.text.DecimalFormat
 
 class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, PrepedidoAdapter.ProductoClickListener {
 
@@ -28,6 +29,8 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
     private lateinit var cantidades: MutableList<Int>
     private lateinit var adapterPrepedido: PrepedidoAdapter
     private lateinit var precioTotalTextView: TextView
+    private lateinit var subtotalTextView: TextView
+    private lateinit var totalTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,45 +39,45 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         // Inicializar otras variables y vistas
         productosSeleccionados = mutableListOf()
         cantidades = mutableListOf()
-        precioTotalTextView = findViewById(R.id.totaltxt)
 
-        // Inicializa el RecyclerView para mostrar los productos seleccionados
+        subtotalTextView = findViewById(R.id.Subtxt)
+        totalTextView = findViewById(R.id.txtTTF)
+
+        // Inicializar RecyclerView para productos seleccionados
         val recyprepedido = findViewById<RecyclerView>(R.id.recyprepedido)
         val layoutManagerPrepedido = LinearLayoutManager(this)
         recyprepedido.layoutManager = layoutManagerPrepedido
-
-        // Inicializa y configura el adaptador para mostrar los productos seleccionados
         adapterPrepedido = PrepedidoAdapter(productosSeleccionados, cantidades, this)
         recyprepedido.adapter = adapterPrepedido
 
-        // Obtén la información del cliente desde el intent
+        // Obtener información del cliente desde el intent
         clienteSeleccionado = intent.getSerializableExtra("clienteSeleccionado") as? ClienteSQLiteModel
             ?: throw IllegalArgumentException("Cliente no proporcionado en el intent")
 
-        // Muestra la información del cliente en algún lugar de tu diseño, por ejemplo, un TextView
+        // Mostrar información del cliente en TextViews
         val idclient: TextView = findViewById(R.id.idclienttxt)
         idclient.text = " ${clienteSeleccionado.id}"
         val nombreClienteTextView: TextView = findViewById(R.id.nombreClienteTextView)
         nombreClienteTextView.text = " Cliente: ${clienteSeleccionado.nombre}"
         idclient.visibility = View.GONE
 
-        // Inicializa el RecyclerView
+        // Inicializar RecyclerView principal
         recyclerView = findViewById(R.id.recliclerProductos)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-        // Accede a la base de datos y obtén la lista de productos
+        // Acceder a la base de datos y obtener la lista de productos
         val dbHelper = bdAdapter(this)
         productosList = dbHelper.getProductosList()
 
-        // Inicializa la lista filtrada con la lista original al principio
+        // Inicializar la lista filtrada con la lista original al principio
         productosFiltrados = productosList
 
-        // Inicializa y configura el adaptador con la lista de productos filtrados y el listener
+        // Inicializar y configurar el adaptador con la lista de productos filtrados y el listener
         adapter = ProductoAdapter(productosFiltrados, this)
         recyclerView.adapter = adapter
 
-        // Configura el EditText para la búsqueda de productos
+        // Configurar el EditText para la búsqueda de productos
         val editTextSearch = findViewById<EditText>(R.id.txtBuscar2)
         editTextSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -82,17 +85,20 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().trim()
 
-                // Filtra la lista de productos basados en el nombre ingresado
+                // Filtrar la lista de productos basados en el nombre ingresado
                 productosFiltrados = productosList.filter { producto ->
                     producto.nombre.contains(query, ignoreCase = true)
                 }
 
-                // Actualiza el adaptador del RecyclerView con la lista filtrada
+                // Actualizar el adaptador del RecyclerView con la lista filtrada
                 adapter.updateList(productosFiltrados)
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
+
+        // Actualizar los precios iniciales
+        actualizarPrecios()
     }
 
     override fun onProductoClick(producto: ProductoSQLiteModel) {
@@ -112,8 +118,8 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
             val adapterPrepedido2 = PrepedidoAdapter(productosSeleccionados, cantidades, this)
             recyprepedido2.adapter = adapterPrepedido2
 
-            // Actualiza el precio total después de cada clic en un producto
-            actualizarPrecioSubTotal()
+            // Actualizar los precios después de cada clic en un producto
+            actualizarPrecios()
 
         } catch (e: Exception) {
             Log.e("error2", "Error al inicializar el nuevo adaptador: ${e.message}", e)
@@ -121,28 +127,70 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
     }
 
     private fun calcularPrecioSubtotal(): Double {
-        var precioTotal = 0.0
+        var subtotal = 0.0
 
         for (i in productosSeleccionados.indices) {
             val producto = productosSeleccionados[i]
             val cantidad = cantidades[i]
 
-            // Intenta convertir el precio a Double antes de multiplicar
             val precioComoDouble = try {
                 producto.precio.toDouble()
             } catch (e: NumberFormatException) {
-                // Maneja la excepción si la conversión no es posible
                 0.0
             }
 
-            precioTotal += precioComoDouble * cantidad
+            subtotal += precioComoDouble * cantidad
         }
 
-        return precioTotal
+        return subtotal
     }
 
-    private fun actualizarPrecioSubTotal() {
-        precioTotalTextView.text = "Subtotal: ${calcularPrecioSubtotal()}"
+    private fun calcularPrecioFinal(subtotal: Double): Double {
+        var total = subtotal
+
+        for (i in productosSeleccionados.indices) {
+            val producto = productosSeleccionados[i]
+            val cantidad = cantidades[i]
+
+            val precioComoDouble = try {
+                producto.precio.toDouble()
+            } catch (e: NumberFormatException) {
+                0.0
+            }
+
+            val iepsComoPorcentaje = try {
+                producto.ieps.toDouble() / 100.0 // Convertir el porcentaje a un factor multiplicativo
+            } catch (e: NumberFormatException) {
+                0.0
+            }
+
+            val ivaComoPorcentaje = try {
+                producto.iva.toDouble() / 100.0 // Convertir el porcentaje a un factor multiplicativo
+            } catch (e: NumberFormatException) {
+                0.0
+            }
+
+            // Aplicar IEPS como porcentaje y sumarlo al total
+            total += precioComoDouble * iepsComoPorcentaje * cantidad
+
+            // Aplicar IVA como porcentaje y sumarlo al total
+            total += precioComoDouble * ivaComoPorcentaje * cantidad
+
+        }
+
+        return total
+    }
+
+    private fun actualizarPrecios() {
+        val subtotal = calcularPrecioSubtotal()
+        val total = calcularPrecioFinal(subtotal)
+
+        // Redondear subtotal y total a dos decimales antes de mostrarlos en los TextView
+        val subtotalRedondeado = redondearADosDecimales(subtotal)
+        val totalRedondeado = redondearADosDecimales(total)
+
+        subtotalTextView.text = "Subtotal: $subtotalRedondeado"
+        totalTextView.text = "Total: $totalRedondeado"
     }
 
     fun abrirOtraActividad(view: View) {
@@ -152,6 +200,10 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         intent.putExtra("numeroCliente", clienteSeleccionado.id)
         intent.putExtra("nombreCliente", clienteSeleccionado.nombre)
         startActivity(intent)
+    }
+    private fun redondearADosDecimales(valor: Double): String {
+        val df = DecimalFormat("#.##")
+        return df.format(valor)
     }
 }
 
