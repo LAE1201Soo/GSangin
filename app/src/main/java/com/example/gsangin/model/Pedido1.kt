@@ -23,55 +23,39 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
     private lateinit var adapter: ProductoAdapter
     private lateinit var productosList: List<ProductoSQLiteModel>
     private lateinit var productosFiltrados: List<ProductoSQLiteModel>
-    private lateinit var clienteSeleccionado: ClienteSQLiteModel // Variable para almacenar la información del cliente
+    private lateinit var clienteSeleccionado: ClienteSQLiteModel
     private lateinit var productosSeleccionados: MutableList<ProductoSQLiteModel>
     private lateinit var cantidades: MutableList<Int>
     private lateinit var adapterPrepedido: PrepedidoAdapter
-
+    private lateinit var precioTotalTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pedido1)
 
-        //inicialilar la nueva lista :0
+        // Inicializar otras variables y vistas
         productosSeleccionados = mutableListOf()
-        //inicializar cantidades
-        // En el onCreate de tu actividad
         cantidades = mutableListOf()
-
+        precioTotalTextView = findViewById(R.id.totaltxt)
 
         // Inicializa el RecyclerView para mostrar los productos seleccionados
         val recyprepedido = findViewById<RecyclerView>(R.id.recyprepedido)
         val layoutManagerPrepedido = LinearLayoutManager(this)
         recyprepedido.layoutManager = layoutManagerPrepedido
 
-
-
-
-        // Crear un objeto ProductoClickListener vacío para evitar problemas de valor nulo
-        val emptyClickListener = object : ProductoAdapter.ProductoClickListener {
-            override fun onProductoClick(producto: ProductoSQLiteModel) {
-                // No necesitas hacer nada aquí, ya que esta lista no manejará clics
-            }
-        }
         // Inicializa y configura el adaptador para mostrar los productos seleccionados
         adapterPrepedido = PrepedidoAdapter(productosSeleccionados, cantidades, this)
         recyprepedido.adapter = adapterPrepedido
-        // ver si inicio
-        Log.d("Pedido1", "onCreate - Inicialización completada")
-
 
         // Obtén la información del cliente desde el intent
-        clienteSeleccionado =
-            intent.getSerializableExtra("clienteSeleccionado") as? ClienteSQLiteModel
-                ?: throw IllegalArgumentException("Cliente no proporcionado en el intent")
+        clienteSeleccionado = intent.getSerializableExtra("clienteSeleccionado") as? ClienteSQLiteModel
+            ?: throw IllegalArgumentException("Cliente no proporcionado en el intent")
 
         // Muestra la información del cliente en algún lugar de tu diseño, por ejemplo, un TextView
         val idclient: TextView = findViewById(R.id.idclienttxt)
         idclient.text = " ${clienteSeleccionado.id}"
         val nombreClienteTextView: TextView = findViewById(R.id.nombreClienteTextView)
         nombreClienteTextView.text = " Cliente: ${clienteSeleccionado.nombre}"
-        // ocultar el id para el usuario
         idclient.visibility = View.GONE
 
         // Inicializa el RecyclerView
@@ -111,69 +95,64 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         })
     }
 
-    // Implementación de la interfaz ProductoClickListener
     override fun onProductoClick(producto: ProductoSQLiteModel) {
-        Log.d("Pedido1", "onProductoClick - Producto seleccionado: ${producto.nombre}")
-
-        // Verifica si el producto ya está en la lista
         val index = productosSeleccionados.indexOf(producto)
         if (index == -1) {
-            // El producto no está en la lista, agrégalo
             productosSeleccionados.add(producto)
             cantidades.add(1)
-            Log.d("Pedido1", "1")
         } else {
-            // El producto ya está en la lista, actualiza la cantidad, por ejemplo, aumenta en 1
             cantidades[index] += 1
-            Log.d("Pedido1", "2")
         }
+
         try {
-            // Inicializa el nuevo RecyclerView
-
             val recyprepedido2 = findViewById<RecyclerView>(R.id.recyprepedido)
-
             val layoutManagerPrepedido = LinearLayoutManager(this)
             recyprepedido2.layoutManager = layoutManagerPrepedido
 
-
-            // Crea un nuevo adaptador
             val adapterPrepedido2 = PrepedidoAdapter(productosSeleccionados, cantidades, this)
-
-            // Asigna el nuevo adaptador
             recyprepedido2.adapter = adapterPrepedido2
-            Log.d("entro", "logre asignar valores")
-            // Imprime un mensaje indicando que la inicialización fue exitosa
-            Log.d("Pedido1", "Nuevo adaptador inicializado con éxito")
+
+            // Actualiza el precio total después de cada clic en un producto
+            actualizarPrecioTotal()
 
         } catch (e: Exception) {
-            // Maneja la excepción aquí
             Log.e("error2", "Error al inicializar el nuevo adaptador: ${e.message}", e)
-
         }
+    }
+
+    private fun calcularPrecioTotal(): Double {
+        var precioTotal = 0.0
+
+        for (i in productosSeleccionados.indices) {
+            val producto = productosSeleccionados[i]
+            val cantidad = cantidades[i]
+
+            // Intenta convertir el precio a Double antes de multiplicar
+            val precioComoDouble = try {
+                producto.precio.toDouble()
+            } catch (e: NumberFormatException) {
+                // Maneja la excepción si la conversión no es posible
+                0.0
+            }
+
+            precioTotal += precioComoDouble * cantidad
+        }
+
+        return precioTotal
+    }
+
+    private fun actualizarPrecioTotal() {
+        precioTotalTextView.text = "Subtotal: ${calcularPrecioTotal()}"
     }
 
     fun abrirOtraActividad(view: View) {
-
         val intent = Intent(this, AnalizarPedido::class.java)
-
-        // Agrega logs para verificar la lista antes de pasarla al Intent
-        Log.d("Pedido1", "Productos Seleccionados antes de pasar a la siguiente actividad:")
-        for (producto in productosSeleccionados) {
-            Log.d("Pedido1", "ID: ${producto.id}, Nombre: ${producto.nombre}")
-        }
-
-        // Pasa la lista de productos seleccionados y sus cantidades como extras en el Intent
         intent.putExtra("productosSeleccionados", ArrayList(productosSeleccionados))
         intent.putExtra("cantidades", ArrayList(cantidades))
-
-        // Pasa la información del cliente como extras en el Intent
         intent.putExtra("numeroCliente", clienteSeleccionado.id)
         intent.putExtra("nombreCliente", clienteSeleccionado.nombre)
-
-
-
         startActivity(intent)
     }
-
 }
+
 
