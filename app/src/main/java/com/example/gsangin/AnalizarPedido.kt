@@ -16,7 +16,7 @@ class AnalizarPedido : AppCompatActivity() {
         // Obtén la información del cliente del Intent
         val numeroCliente = intent.getIntExtra("numeroCliente", 0)
         val nombreCliente = intent.getStringExtra("nombreCliente")
-        // Accede a los TextViews en tu diseño
+
         val numeroClienteTextView: TextView = findViewById(R.id.txtidC)
         val nombreClienteTextView: TextView = findViewById(R.id.txtN)
 
@@ -33,15 +33,27 @@ class AnalizarPedido : AppCompatActivity() {
             intent.getIntegerArrayListExtra("cantidades")
                 ?: throw IllegalArgumentException("Lista de cantidades no proporcionada en el intent")
 
-        // Combina los productos seleccionados con sus cantidades
+
         val productosConCantidad = productosSeleccionados.zip(cantidades)
 
-        // Configura el RecyclerView
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyComfirma)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Crea y asigna el adaptador
         val adapter = ProductosSeleccionadosAdapter(productosConCantidad)
         recyclerView.adapter = adapter
+
+        //  subtotal y el total redondeado del Intent
+        val subtotalRedondeado = intent.getStringExtra("subtotalRedondeado")  ?: "0.00"
+        val totalRedondeado = intent.getStringExtra("totalRedondeado") ?: "0.00"
+
+// meterlos al textview
+        val subtotalTextView: TextView = findViewById(R.id.txtsub)
+        val totalTextView: TextView = findViewById(R.id.txttotal)
+
+// Muestra el subtotal y el total en los TextViews
+        subtotalTextView.text = "Subtotal: $subtotalRedondeado"
+        totalTextView.text = "Total con ipes e iva : $totalRedondeado"
     }
 }
