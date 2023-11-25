@@ -39,6 +39,10 @@ class RegiUser : AppCompatActivity() {
             // Verificar si algún campo está vacío
             if (nombre.isEmpty() || usuario.isEmpty() || contraseña.isEmpty() || confirmarContraseña.isEmpty()) {
                 Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+            } else if (usuario.length < 4) {
+                Toast.makeText(this, "El nombre de usuario debe tener al menos 4 caracteres", Toast.LENGTH_SHORT).show()
+            } else if (contraseña.length < 8) {
+                Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show()
             } else if (contraseña == confirmarContraseña) {
                 val usersList = getUsersList()
 
