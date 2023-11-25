@@ -13,8 +13,6 @@
         android:textSize="18sp"
         android:textStyle="bold"/>
 
-
-
     <TextView
         android:id="@+id/subtotalTextView"
         android:layout_width="wrap_content"
@@ -27,10 +25,17 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"/>
 
+
+
     <!-- RecyclerView para mostrar los productos asociados al pedido -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProductos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
+    <!-- Línea divisoria -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/holo_green_light"/>
 </LinearLayout>
