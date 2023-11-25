@@ -13,9 +13,9 @@ class PedidoAdapter(private val pedidos: List<Pedido>) :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val clienteIdTextView: TextView = itemView.findViewById(R.id.clienteIdTextView)
-        //val clienteNombreTextView: TextView = itemView.findViewById(R.id.clienteNombreTextView)
         val subtotalTextView: TextView = itemView.findViewById(R.id.subtotalTextView)
         val totalTextView: TextView = itemView.findViewById(R.id.totalTextView)
+        val fechaTextView: TextView = itemView.findViewById(R.id.fechaTextView)
         val recyclerViewProductos: RecyclerView = itemView.findViewById(R.id.recyclerViewProductos)
     }
 
@@ -30,9 +30,9 @@ class PedidoAdapter(private val pedidos: List<Pedido>) :
 
         // Vincula los datos a las vistas
         holder.clienteIdTextView.text = "Cliente ID: ${pedido.clienteId}"
-        //holder.clienteNombreTextView.text = "Cliente: ${pedido.clienteNombre ?: "N/A"}"
         holder.subtotalTextView.text = "Subtotal: ${pedido.subtotal}"
         holder.totalTextView.text = "Total: ${pedido.total}"
+        holder.fechaTextView.text = "Fecha: ${pedido.fecha}"
 
         // Configura un LinearLayoutManager para el RecyclerView de productos
         val layoutManager = LinearLayoutManager(holder.recyclerViewProductos.context)

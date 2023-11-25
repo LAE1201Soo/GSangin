@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.model.ProductoSQLiteModel
 import com.example.gsangin.model.ProductosSeleccionadosAdapter
 import com.example.gsangin.model.bdAdapter
+import java.text.SimpleDateFormat
+import java.util.Date
 
 import android.util.Log
 
@@ -64,7 +66,13 @@ class AnalizarPedido : AppCompatActivity() {
         totalTextView.text = "Total con ipes e iva : $totalRedondeado"
 
         btnComfirmar.setOnClickListener {
-            guardarPedidoEnBaseDeDatos(numeroCliente, nombreCliente, productosConCantidad, subtotalRedondeado, totalRedondeado)
+            guardarPedidoEnBaseDeDatos(
+                numeroCliente,
+                nombreCliente,
+                productosConCantidad,
+                subtotalRedondeado,
+                totalRedondeado
+            )
             // Puedes agregar más lógica aquí si es necesario
         }
     }
@@ -78,15 +86,23 @@ class AnalizarPedido : AppCompatActivity() {
     ) {
         val db = dbHelper.writableDatabase
 
-        // Insertar pedido
+        // Obtener la fecha actual
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val fechaActual = dateFormat.format(Date())
+
+        // Insertar pedido con la fecha
         val pedidoValues = ContentValues().apply {
             put(bdAdapter.COLUMN_PEDIDO_CLIENTE_ID, clienteId)
             put(bdAdapter.COLUMN_PEDIDO_SUBTOTAL, subtotal)
             put(bdAdapter.COLUMN_PEDIDO_TOTAL, total)
+            put(bdAdapter.COLUMN_PEDIDO_FECHA, fechaActual)
         }
         val pedidoId = db.insert(bdAdapter.TABLE_PEDIDOS, null, pedidoValues)
 
-        Log.d("AnalizarPedido", "Pedido insertado con ID: $pedidoId, Cliente ID: $clienteId, Cliente Nombre: $clienteNombre, Subtotal: $subtotal, Total: $total")
+        Log.d(
+            "AnalizarPedido",
+            "Pedido insertado con ID: $pedidoId, Cliente ID: $clienteId, Cliente Nombre: $clienteNombre, Subtotal: $subtotal, Total: $total, Fecha: $fechaActual"
+        )
 
         // Insertar cada producto en ProductoPedido
         for ((producto, cantidad) in productosConCantidad) {
@@ -95,15 +111,18 @@ class AnalizarPedido : AppCompatActivity() {
                 put(bdAdapter.COLUMN_PRODUCTO_PEDIDO_PRODUCTO_ID, producto.id)
                 put(bdAdapter.COLUMN_PRODUCTO_PEDIDO_CANTIDAD, cantidad)
             }
-            val productoPedidoId = db.insert(bdAdapter.TABLE_PRODUCTOS_PEDIDO, null, productoPedidoValues)
+            val productoPedidoId =
+                db.insert(bdAdapter.TABLE_PRODUCTOS_PEDIDO, null, productoPedidoValues)
 
-            Log.d("AnalizarPedido", "Producto del pedido insertado con ID: $productoPedidoId, Producto ID: ${producto.id}, Cantidad: $cantidad")
+            Log.d(
+                "AnalizarPedido",
+                "Producto del pedido insertado con ID: $productoPedidoId, Producto ID: ${producto.id}, Cantidad: $cantidad"
+            )
         }
 
         db.close()
 
         Toast.makeText(this, "Pedido realizado", Toast.LENGTH_SHORT).show()
-
 
         val intent = Intent(this, MenuPrincipal::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

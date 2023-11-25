@@ -46,11 +46,12 @@ class Temporal : AppCompatActivity() {
             val clienteId = cursor.getInt(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_CLIENTE_ID))
             val subtotal = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_SUBTOTAL))
             val total = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_TOTAL))
+            val fecha = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_FECHA)) // Asegúrate de tener este campo en tu tabla
 
             // Obtener productos asociados a este pedido prueba 5 aaaaaaaa
             val productosConCantidad = obtenerProductosPorPedidoId(pedidoId)
 
-            val pedido = Pedido(clienteId, null, subtotal, total, productosConCantidad)
+            val pedido = Pedido(clienteId, fecha, subtotal, total, productosConCantidad)
             listaPedidos.add(pedido)
         }
 

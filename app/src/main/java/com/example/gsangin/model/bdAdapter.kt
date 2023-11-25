@@ -11,7 +11,7 @@ import java.util.Locale
 class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         const val DATABASE_NAME = "aplicacionK.db"
-        const val DATABASE_VERSION = 3
+        const val DATABASE_VERSION =4
 
 
         // Nueva tabla para pedidos
@@ -20,6 +20,7 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         const val COLUMN_PEDIDO_CLIENTE_ID = "cliente_id"
         const val COLUMN_PEDIDO_SUBTOTAL = "subtotal"
         const val COLUMN_PEDIDO_TOTAL = "total"
+        const val COLUMN_PEDIDO_FECHA = "fecha"
 
         // Nueva tabla para productos del pedido
         const val TABLE_PRODUCTOS_PEDIDO = "productos_pedido"
@@ -78,7 +79,8 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 "$COLUMN_PEDIDO_ID INTEGER PRIMARY KEY," +
                 "$COLUMN_PEDIDO_CLIENTE_ID INTEGER," +
                 "$COLUMN_PEDIDO_SUBTOTAL TEXT," +
-                "$COLUMN_PEDIDO_TOTAL TEXT" +
+                "$COLUMN_PEDIDO_TOTAL TEXT," +
+                "$COLUMN_PEDIDO_FECHA TEXT" +
                 ")"
         // productos pedidos
         private const val CREATE_TABLE_PRODUCTOS_PEDIDO = "CREATE TABLE $TABLE_PRODUCTOS_PEDIDO (" +
