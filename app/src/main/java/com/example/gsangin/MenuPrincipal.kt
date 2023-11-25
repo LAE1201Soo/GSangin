@@ -27,8 +27,8 @@ class MenuPrincipal : AppCompatActivity() {
         imgInve= findViewById(R.id.imgInventario)
         cerrarSesionButton.setOnClickListener {
             // Realiza el cierre de sesión
-            setLoggedIn(false)  // Establece el estado de autenticación como "no autenticado"
-            goToMainActivity()  // Vuelve a la actividad principal (MainActivity)
+            setLoggedIn(false)
+            goToMainActivity()
         }
     
         imgSincronizaButton.setOnClickListener {

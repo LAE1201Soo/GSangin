@@ -11,7 +11,22 @@ import java.util.Locale
 class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         const val DATABASE_NAME = "aplicacionK.db"
-        const val DATABASE_VERSION = 2
+        const val DATABASE_VERSION = 3
+
+
+        // Nueva tabla para pedidos
+        const val TABLE_PEDIDOS = "pedidos"
+        const val COLUMN_PEDIDO_ID = "id"
+        const val COLUMN_PEDIDO_CLIENTE_ID = "cliente_id"
+        const val COLUMN_PEDIDO_SUBTOTAL = "subtotal"
+        const val COLUMN_PEDIDO_TOTAL = "total"
+
+        // Nueva tabla para productos del pedido
+        const val TABLE_PRODUCTOS_PEDIDO = "productos_pedido"
+        const val COLUMN_PRODUCTO_PEDIDO_ID = "id"
+        const val COLUMN_PRODUCTO_PEDIDO_PEDIDO_ID = "pedido_id"
+        const val COLUMN_PRODUCTO_PEDIDO_PRODUCTO_ID = "producto_id"
+        const val COLUMN_PRODUCTO_PEDIDO_CANTIDAD = "cantidad"
 
         // Define la tabla y las columnas que llevará la base de datos para clientes
         const val TABLE_CLIENTES = "clientes"
@@ -58,11 +73,31 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 "$COLUMN_IVA REAL," +
                 "$COLUMN_IEPS REAL" +
                 ")"
+        // tabla pedidos
+        private const val CREATE_TABLE_PEDIDOS = "CREATE TABLE $TABLE_PEDIDOS (" +
+                "$COLUMN_PEDIDO_ID INTEGER PRIMARY KEY," +
+                "$COLUMN_PEDIDO_CLIENTE_ID INTEGER," +
+                "$COLUMN_PEDIDO_SUBTOTAL TEXT," +
+                "$COLUMN_PEDIDO_TOTAL TEXT" +
+                ")"
+        // productos pedidos
+        private const val CREATE_TABLE_PRODUCTOS_PEDIDO = "CREATE TABLE $TABLE_PRODUCTOS_PEDIDO (" +
+                "$COLUMN_PRODUCTO_PEDIDO_ID INTEGER PRIMARY KEY," +
+                "$COLUMN_PRODUCTO_PEDIDO_PEDIDO_ID INTEGER," +
+                "$COLUMN_PRODUCTO_PEDIDO_PRODUCTO_ID INTEGER," +
+                "$COLUMN_PRODUCTO_PEDIDO_CANTIDAD INTEGER," +
+                "FOREIGN KEY($COLUMN_PRODUCTO_PEDIDO_PEDIDO_ID) REFERENCES $TABLE_PEDIDOS($COLUMN_PEDIDO_ID)," +
+                "FOREIGN KEY($COLUMN_PRODUCTO_PEDIDO_PRODUCTO_ID) REFERENCES $TABLE_PRODUCTOS($COLUMN_PRODUCTO_ID)" +
+                ")"
+
+
     }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE_CLIENTES)
         db.execSQL(CREATE_TABLE_PRODUCTOS)
+        db.execSQL(CREATE_TABLE_PEDIDOS)
+        db.execSQL(CREATE_TABLE_PRODUCTOS_PEDIDO)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
