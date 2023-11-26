@@ -208,7 +208,7 @@
         android:id="@+id/btnRestablecer"
         android:layout_width="52dp"
         android:layout_height="37dp"
-        android:backgroundTint="#BC51EA"
+        android:backgroundTint="#49E3D1"
         android:onClick="restablecerPrepedido"
         app:icon="@drawable/icons8_basura_20"
         app:layout_constraintBottom_toTopOf="@+id/recyprepedido"
