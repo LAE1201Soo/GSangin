@@ -204,4 +204,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btnRestablecer"
+        android:layout_width="52dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#BC51EA"
+        android:onClick="restablecerPrepedido"
+        app:icon="@drawable/icons8_basura_20"
+        app:layout_constraintBottom_toTopOf="@+id/recyprepedido"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

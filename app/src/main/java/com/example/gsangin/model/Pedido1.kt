@@ -193,6 +193,22 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
         val df = DecimalFormat("#.##")
         return df.format(valor)
     }
+    fun restablecerPrepedido(view: View) {
+        productosSeleccionados.clear()
+        cantidades.clear()
+
+        try {
+            val recyprepedido = findViewById<RecyclerView>(R.id.recyprepedido)
+            val layoutManagerPrepedido = LinearLayoutManager(this)
+            recyprepedido.layoutManager = layoutManagerPrepedido
+            adapterPrepedido = PrepedidoAdapter(productosSeleccionados, cantidades, this)
+            recyprepedido.adapter = adapterPrepedido
+
+            actualizarPrecios()
+        } catch (e: Exception) {
+            Log.e("errorRestablecer", "Error al restablecer prepedido: ${e.message}", e)
+        }
+    }
 }
 
 
