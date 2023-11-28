@@ -12,12 +12,12 @@ class ProductosSeleccionadosAdapter(private val productosConCantidad: List<Pair<
     RecyclerView.Adapter<ProductosSeleccionadosAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productoID: TextView = itemView.findViewById(R.id.productoID)
-        val claveTextView: TextView = itemView.findViewById(R.id.claveTextView)
+        //val productoID: TextView = itemView.findViewById(R.id.productoID)
+       // val claveTextView: TextView = itemView.findViewById(R.id.claveTextView)
         val nombreProductoTextView: TextView = itemView.findViewById(R.id.nombreProductoTextView)
         val precioTextView: TextView = itemView.findViewById(R.id.precioTextView)
-        val ivaTextView: TextView = itemView.findViewById(R.id.ivaTextView)
-        val iepsTextView: TextView = itemView.findViewById(R.id.iepsTextView)
+        //val ivaTextView: TextView = itemView.findViewById(R.id.ivaTextView)
+        //val iepsTextView: TextView = itemView.findViewById(R.id.iepsTextView)
         val cantidadTextView: TextView = itemView.findViewById(R.id.cantidadTextView)
       //  val cantidadEditText: EditText = itemView.findViewById(R.id.cantidadEditText)
     }
@@ -32,12 +32,12 @@ class ProductosSeleccionadosAdapter(private val productosConCantidad: List<Pair<
         val (producto, cantidad) = productosConCantidad[position]
 
 
-        holder.productoID.text = producto.id.toString()
-        holder.claveTextView.text = producto.clave
+        //holder.productoID.text = producto.id.toString()
+        //holder.claveTextView.text = producto.clave
         holder.nombreProductoTextView.text = producto.nombre
         holder.precioTextView.text = producto.precio.toString()
-        holder.ivaTextView.text = producto.iva.toString()
-        holder.iepsTextView.text = producto.ieps.toString()
+       // holder.ivaTextView.text = producto.iva.toString()
+       // holder.iepsTextView.text = producto.ieps.toString()
         holder.cantidadTextView.text = cantidad.toString()
 
 

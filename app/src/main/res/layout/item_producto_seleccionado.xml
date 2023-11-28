@@ -8,28 +8,16 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/productoID"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="ID"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/claveTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Clave"
-        android:textSize="12sp" />
-
-    <TextView
         android:id="@+id/nombreProductoTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Nombre"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/precioTextView"
@@ -37,23 +25,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Precio"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/ivaTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="IVA"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/iepsTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="IEPS"
-        android:textSize="12sp" />
+        android:text=" x "
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/cantidadTextView"
@@ -61,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Cantidad"
-        android:textSize="12sp" />
-
+        android:textSize="14sp" />
 
 </LinearLayout>
