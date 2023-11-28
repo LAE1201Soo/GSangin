@@ -9,7 +9,7 @@ import com.example.gsangin.R
 class ClienteAdapter(private val clientes: List<ClienteSQLiteModel>) :
     RecyclerView.Adapter<ClienteAdapter.ViewHolder>() {
 
-    // Interfaz para manejar los clics en los elementos
+
     interface OnItemClickListener {
         fun onItemClick(cliente: ClienteSQLiteModel)
     }
@@ -32,7 +32,7 @@ class ClienteAdapter(private val clientes: List<ClienteSQLiteModel>) :
         val TelTextView: TextView = itemView.findViewById(R.id.Tel)
 
         init {
-            // Agrega un clic al elemento del RecyclerView
+
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -49,7 +49,7 @@ class ClienteAdapter(private val clientes: List<ClienteSQLiteModel>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val cliente = clientes[position]
-        // Vincula los datos del cliente a las vistas en el elemento de la lista
+
         holder.idTextView.text= cliente.id.toString()
         holder.nombreTextView.text = cliente.nombre
         holder.razonSocialTextView.text = cliente.razonSocial

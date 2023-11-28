@@ -28,18 +28,18 @@ class PedidoAdapter(private val pedidos: List<Pedido>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pedido = pedidos[position]
 
-        // Vincula los datos a las vistas
+
         holder.clienteIdTextView.text = "Cliente ID: ${pedido.clienteId}"
         holder.subtotalTextView.text = "Subtotal: ${pedido.subtotal}"
         holder.totalTextView.text = "Total: ${pedido.total}"
         holder.fechaTextView.text = "Fecha: ${pedido.fecha}"
 
-        // Configura un LinearLayoutManager para el RecyclerView de productos
+
         val layoutManager = LinearLayoutManager(holder.recyclerViewProductos.context)
         holder.recyclerViewProductos.layoutManager = layoutManager
 
-        // Crea un nuevo adaptador para mostrar los productos en este pedido
-        val productosAdapter = ProductosSeleccionadosAdapter(pedido.productosConCantidad)
+
+        val productosAdapter = ProductosSeleccionadosAdapter(pedido.productos)
         holder.recyclerViewProductos.adapter = productosAdapter
     }
 
@@ -47,3 +47,4 @@ class PedidoAdapter(private val pedidos: List<Pedido>) :
         return pedidos.size
     }
 }
+

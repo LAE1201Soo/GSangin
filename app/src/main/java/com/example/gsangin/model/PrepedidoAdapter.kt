@@ -19,7 +19,7 @@ class PrepedidoAdapter(
         fun onProductoClick(producto: ProductoSQLiteModel)
     }
 
-    // ViewHolder para contener las vistas de los elementos del RecyclerView
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val idTextView: TextView = itemView.findViewById(R.id.productoID)
         val claveTextView: TextView = itemView.findViewById(R.id.claveTextView)
@@ -41,7 +41,7 @@ class PrepedidoAdapter(
         val producto = productos[position]
         val cantidad = cantidades[position]
 
-        // Configurar los datos del producto en el ViewHolder
+
         holder.idTextView.text = producto.id.toString()
         holder.claveTextView.text = producto.clave
         holder.nombreTextView.text = producto.nombre
@@ -50,11 +50,11 @@ class PrepedidoAdapter(
         holder.ivaTextView.text = producto.iva.toString()
         holder.iepsTextView.text = producto.ieps.toString()
 
-        // Configurar la cantidad
+
         holder.cantidadTextView.text = "Cantidad: $cantidad"
         holder.cantidadEditText.setText(cantidad.toString())
 
-        // Manejar el clic en el elemento
+
         holder.itemView.setOnClickListener {
             productoClickListener.onProductoClick(producto)
         }
@@ -64,7 +64,7 @@ class PrepedidoAdapter(
         return productos.size
     }
 
-    // Este método permite actualizar la lista de productos en el adaptador
+
     fun updateList(newProductos: List<ProductoSQLiteModel>, newCantidades: List<Int>) {
         productos = newProductos
         cantidades.clear()

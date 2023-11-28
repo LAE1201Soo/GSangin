@@ -31,7 +31,7 @@ class Sincronizar : AppCompatActivity() {
         btnSincronizar.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
                 try {
-                    // Sincronizar clientes
+
                     val clientesResponse = ClientesObj.service.listClientesData().execute()
 
                     if (clientesResponse.isSuccessful) {
@@ -40,7 +40,7 @@ class Sincronizar : AppCompatActivity() {
                             val dbHelper = bdAdapter(this@Sincronizar)
                             val db = dbHelper.writableDatabase
 
-                            // Borra los datos existentes en la tabla de clientes antes de guardar los nuevos datos
+
                             db.execSQL("DELETE FROM ${bdAdapter.TABLE_CLIENTES}")
 
                             for (cliente in bodyClientes) {
@@ -56,7 +56,7 @@ class Sincronizar : AppCompatActivity() {
                                     put(bdAdapter.COLUMN_TELEFONO, cliente.tel)
                                 }
 
-                                // Inserta el registro en la tabla de clientes
+
                                 val rowId = db.insert(bdAdapter.TABLE_CLIENTES, null, values)
                                 if (rowId.toInt() != -1) {
                                     Log.d("Sincronizar", "Cliente insertado: ${cliente.nombre}")
@@ -65,13 +65,13 @@ class Sincronizar : AppCompatActivity() {
                                 }
                             }
 
-                            // Sincronizar productos
+
                             val productosResponse = ProductosObj.service.listProductosData().execute()
 
                             if (productosResponse.isSuccessful) {
                                 val bodyProductos = productosResponse.body()
                                 if (bodyProductos != null) {
-                                    // Borra los datos existentes en la tabla de productos antes de guardar los nuevos datos
+
                                     db.execSQL("DELETE FROM ${bdAdapter.TABLE_PRODUCTOS}")
 
                                     for (producto in bodyProductos) {
@@ -85,7 +85,7 @@ class Sincronizar : AppCompatActivity() {
                                             put(bdAdapter.COLUMN_IEPS, producto.ieps)
                                         }
 
-                                        // Inserta el registro en la tabla de productos
+
                                         val rowId = db.insert(bdAdapter.TABLE_PRODUCTOS, null, values)
                                         if (rowId.toInt() != -1) {
                                             Log.d("SincronizarProducto", "Producto insertado: ${producto.nombre}")
@@ -97,7 +97,7 @@ class Sincronizar : AppCompatActivity() {
                                     // Cierra la base de datos
                                     db.close()
 
-                                    // Muestra un mensaje de éxito en el hilo de la interfaz de usuario
+
                                     runOnUiThread {
                                         Toast.makeText(
                                             this@Sincronizar,

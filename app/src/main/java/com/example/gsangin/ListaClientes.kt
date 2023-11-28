@@ -23,18 +23,18 @@ class ListaClientes : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
 
-        // Acceder a la base de datos y obtener los datos de los clientes
+
         val dbHelper = bdAdapter(this)
         clientesList = dbHelper.getClientesList()
 
-        // Configurar el adaptador con la lista de clientes obtenida
+
         adapter = ClienteAdapter(clientesList)
         recyclerView.adapter = adapter
 
-        // Configurar el listener para manejar los clics en los elementos
+
         adapter.setOnItemClickListener(object : ClienteAdapter.OnItemClickListener {
             override fun onItemClick(cliente: ClienteSQLiteModel) {
-                // Aquí debes iniciar la nueva actividad pasando la información completa del cliente
+
                 val intent = Intent(this@ListaClientes, Pedido1::class.java)
                 intent.putExtra("clienteSeleccionado", cliente)
                 startActivity(intent)

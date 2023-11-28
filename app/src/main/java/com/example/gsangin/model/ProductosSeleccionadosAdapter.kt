@@ -31,7 +31,7 @@ class ProductosSeleccionadosAdapter(private val productosConCantidad: List<Pair<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (producto, cantidad) = productosConCantidad[position]
 
-        // Vincula los datos a las vistas
+
         holder.productoID.text = producto.id.toString()
         holder.claveTextView.text = producto.clave
         holder.nombreProductoTextView.text = producto.nombre
@@ -40,7 +40,7 @@ class ProductosSeleccionadosAdapter(private val productosConCantidad: List<Pair<
         holder.iepsTextView.text = producto.ieps.toString()
         holder.cantidadTextView.text = cantidad.toString()
 
-        // Puedes configurar listeners o cualquier lógica adicional aquí
+
     }
 
     override fun getItemCount(): Int {

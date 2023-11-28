@@ -55,7 +55,7 @@ class RegiUser : AppCompatActivity() {
 
                     Toast.makeText(this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
 
-                    // Limpiar los campos
+
                     nombreEditText.text.clear()
                     usuarioEditText.text.clear()
                     contraseñaEditText.text.clear()

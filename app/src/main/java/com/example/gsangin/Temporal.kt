@@ -1,8 +1,10 @@
 package com.example.gsangin
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gsangin.model.Pedido
@@ -16,6 +18,7 @@ class Temporal : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var pedidoAdapter: PedidoAdapter
     private lateinit var dbHelper: bdAdapter
+    private lateinit var btnEnviarCorreo:Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,19 +26,25 @@ class Temporal : AppCompatActivity() {
 
         dbHelper = bdAdapter(this)
 
+        val btnEnviarCorreo: Button = findViewById(R.id.btnEnviar)
+
         recyclerView = findViewById(R.id.recyPedi)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Obtener la lista de pedidos desde la base de datos
+
         val listaPedidos: List<Pedido> = obtenerListaDePedidos()
 
         pedidoAdapter = PedidoAdapter(listaPedidos)
         recyclerView.adapter = pedidoAdapter
+
+        btnEnviarCorreo.setOnClickListener {
+            enviarCorreo()
+        }
     }
 
     @SuppressLint("Range")
     private fun obtenerListaDePedidos(): List<Pedido> {
-        // Obtener pedidos y productos asociados desde la base de datos
+
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM ${bdAdapter.TABLE_PEDIDOS}", null)
 
@@ -46,9 +55,8 @@ class Temporal : AppCompatActivity() {
             val clienteId = cursor.getInt(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_CLIENTE_ID))
             val subtotal = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_SUBTOTAL))
             val total = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_TOTAL))
-            val fecha = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_FECHA)) // Asegúrate de tener este campo en tu tabla
+            val fecha = cursor.getString(cursor.getColumnIndex(bdAdapter.COLUMN_PEDIDO_FECHA))
 
-            // Obtener productos asociados a este pedido prueba 5 aaaaaaaa
             val productosConCantidad = obtenerProductosPorPedidoId(pedidoId)
 
             val pedido = Pedido(clienteId, fecha, subtotal, total, productosConCantidad)
@@ -72,7 +80,7 @@ class Temporal : AppCompatActivity() {
             val productoId = cursor.getInt(cursor.getColumnIndex(bdAdapter.COLUMN_PRODUCTO_PEDIDO_PRODUCTO_ID))
             val cantidad = cursor.getInt(cursor.getColumnIndex(bdAdapter.COLUMN_PRODUCTO_PEDIDO_CANTIDAD))
 
-            // Obtener información del producto desde la base de datos
+
             val producto = obtenerProductoPorId(productoId)
 
             productosConCantidad.add(producto to cantidad)
@@ -100,11 +108,49 @@ class Temporal : AppCompatActivity() {
 
         cursor.close()
 
-        // Formatea los valores con dos decimales
+
         val precioFormateado = String.format(Locale.US, "%.2f", precio)
         val ivaFormateado = String.format(Locale.US, "%.2f", iva)
         val iepsFormateado = String.format(Locale.US, "%.2f", ieps)
 
         return ProductoSQLiteModel(id, clave, nombre, descripcion, precioFormateado, ivaFormateado, iepsFormateado)
     }
+
+    private fun enviarCorreo() {
+
+        val listaPedidos: List<Pedido> = obtenerListaDePedidos()
+
+
+        val contenidoCorreo = formatearContenidoCorreo(listaPedidos)
+
+
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Datos del Pedido")
+        intent.putExtra(Intent.EXTRA_TEXT, contenidoCorreo)
+
+
+        startActivity(Intent.createChooser(intent, "Enviar correo electrónico"))
+    }
+
+    private fun formatearContenidoCorreo(listaPedidos: List<Pedido>): String {
+
+        val stringBuilder = StringBuilder()
+
+        for (pedido in listaPedidos) {
+            stringBuilder.append("Cliente: ${pedido.clienteId}\n")
+            stringBuilder.append("Fecha: ${pedido.fecha}\n")
+            stringBuilder.append("Subtotal: ${pedido.subtotal}\n")
+            stringBuilder.append("Total: ${pedido.total}\n\n")
+
+            for ((producto, cantidad) in pedido.productos) {
+                stringBuilder.append("Producto: ${producto.nombre}, Cantidad: $cantidad\n")
+            }
+
+            stringBuilder.append("\n-----------------\n\n")
+        }
+
+        return stringBuilder.toString()
+    }
+
 }

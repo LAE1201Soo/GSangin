@@ -189,7 +189,7 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
             intent.putExtra("totalRedondeado", totalRedondeado)
             startActivity(intent)
         } else {
-            // Muestra un mensaje o realiza alguna acción para indicar al usuario que la lista está vacía.
+
             Toast.makeText(this, "La lista de productos está vacía", Toast.LENGTH_SHORT).show()
         }
     }

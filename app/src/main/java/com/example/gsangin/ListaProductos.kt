@@ -29,10 +29,10 @@ class ListaProductos : AppCompatActivity(), ProductoAdapter.ProductoClickListene
         val dbHelper = bdAdapter(this)
         productosList = dbHelper.getProductosList()
 
-        // Inicializa la lista filtrada con la lista original al principio
+
         productosFiltrados = productosList
 
-        // Pasa la instancia actual de la actividad como listener al adaptador
+
         adapter = ProductoAdapter(productosFiltrados, this)
         recyclerView.adapter = adapter
 
@@ -44,12 +44,12 @@ class ListaProductos : AppCompatActivity(), ProductoAdapter.ProductoClickListene
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().trim()
 
-                // Filtra la lista de productos basados en el nombre ingresado
+
                 productosFiltrados = productosList.filter { producto ->
                     producto.nombre.contains(query, ignoreCase = true)
                 }
 
-                // Actualiza el adaptador del RecyclerView con la lista filtrada
+
                 adapter.updateList(productosFiltrados)
             }
 
@@ -57,10 +57,9 @@ class ListaProductos : AppCompatActivity(), ProductoAdapter.ProductoClickListene
         })
     }
 
-    // Implementación de la interfaz ProductoClickListener
+
     override fun onProductoClick(producto: ProductoSQLiteModel) {
-        // Aquí puedes agregar la lógica para manejar el clic en un producto
-        // Por ejemplo, puedes mostrar un Toast con el nombre del producto
+
         Toast.makeText(this, "Producto clicado: ${producto.nombre}", Toast.LENGTH_SHORT).show()
     }
 }

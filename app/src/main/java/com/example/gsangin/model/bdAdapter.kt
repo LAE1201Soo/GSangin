@@ -107,7 +107,7 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         db.execSQL("DROP TABLE IF EXISTS $TABLE_PRODUCTOS")
         onCreate(db)
     }
-    // Función para insertar un cliente en la base de datos
+
     fun insertCliente(cliente: ClienteSQLiteModel): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -126,7 +126,6 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
 
-    // Función para obtener todos los clientes de la base de datos
 
     @SuppressLint("Range")
     fun getClientesList(): List<ClienteSQLiteModel> {
@@ -135,7 +134,7 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
         val cursor = db.query(
             TABLE_CLIENTES,
-            null,  // Todas las columnas
+            null,
             null,
             null,
             null,
@@ -163,7 +162,7 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
         return clientesList
     }
-    // Función para obtener todos los productos de la base de datos
+
     @SuppressLint("Range")
     fun getProductosList(): List<ProductoSQLiteModel> {
         val productosList = mutableListOf<ProductoSQLiteModel>()
@@ -171,7 +170,7 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
         val cursor = db.query(
             TABLE_PRODUCTOS,
-            null,  // Todas las columnas
+            null,
             null,
             null,
             null,
@@ -188,7 +187,7 @@ class bdAdapter(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             val iva = cursor.getDouble(cursor.getColumnIndex(COLUMN_IVA))
             val ieps = cursor.getDouble(cursor.getColumnIndex(COLUMN_IEPS))
 
-            // Formatea los valores con dos decimales
+            // Formatea los valores con dos decimales por que se ve feo
             val precioFormateado = String.format(Locale.US, "%.2f", precio)
             val ivaFormateado = String.format(Locale.US, "%.2f", iva)
             val iepsFormateado = String.format(Locale.US, "%.2f", ieps)

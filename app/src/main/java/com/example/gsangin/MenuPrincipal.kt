@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 
 class MenuPrincipal : AppCompatActivity() {
-    private lateinit var cerrarSesionButton: Button  // Agrega un botón para cerrar sesión
+    private lateinit var cerrarSesionButton: Button
     private lateinit var imgSincronizaButton: ImageButton
     private lateinit var imgVentas: ImageButton
     private lateinit var imagPedidos: ImageButton
@@ -26,28 +26,28 @@ class MenuPrincipal : AppCompatActivity() {
         imagPedidos= findViewById(R.id.imgPedidos)
         imgInve= findViewById(R.id.imgInventario)
         cerrarSesionButton.setOnClickListener {
-            // Realiza el cierre de sesión
+
             setLoggedIn(false)
             goToMainActivity()
         }
     
         imgSincronizaButton.setOnClickListener {
-            // Abre la actividad de sincronización
+
             val intent = Intent(this, Sincronizar::class.java)
             startActivity(intent)
         }
         imgVentas.setOnClickListener {
-            // Abre la actividad de tempo
+
             val intent = Intent(this, ListaClientes::class.java)
             startActivity(intent)
         }
         imagPedidos.setOnClickListener {
-            // Abre la actividad de tempo
+
             val intent = Intent(this, Temporal::class.java)
             startActivity(intent)
         }
         imgInve.setOnClickListener {
-            // Abre la actividad de tempo
+
             val intent = Intent(this, ListaProductos::class.java)
             startActivity(intent)
         }
@@ -63,6 +63,6 @@ class MenuPrincipal : AppCompatActivity() {
     private fun goToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        finish()  // Cierra la actividad actual (MenuPrincipal)
+        finish()
     }
 }

@@ -73,7 +73,7 @@ class AnalizarPedido : AppCompatActivity() {
                 subtotalRedondeado,
                 totalRedondeado
             )
-            // Puedes agregar más lógica aquí si es necesario
+
         }
     }
 
@@ -86,11 +86,11 @@ class AnalizarPedido : AppCompatActivity() {
     ) {
         val db = dbHelper.writableDatabase
 
-        // Obtener la fecha actual
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd ")
         val fechaActual = dateFormat.format(Date())
 
-        // Insertar pedido con la fecha
+
         val pedidoValues = ContentValues().apply {
             put(bdAdapter.COLUMN_PEDIDO_CLIENTE_ID, clienteId)
             put(bdAdapter.COLUMN_PEDIDO_SUBTOTAL, subtotal)
@@ -104,7 +104,7 @@ class AnalizarPedido : AppCompatActivity() {
             "Pedido insertado con ID: $pedidoId, Cliente ID: $clienteId, Cliente Nombre: $clienteNombre, Subtotal: $subtotal, Total: $total, Fecha: $fechaActual"
         )
 
-        // Insertar cada producto en ProductoPedido
+
         for ((producto, cantidad) in productosConCantidad) {
             val productoPedidoValues = ContentValues().apply {
                 put(bdAdapter.COLUMN_PRODUCTO_PEDIDO_PEDIDO_ID, pedidoId)

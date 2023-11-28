@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         Ingresartxt = findViewById(R.id.btnIngresar)
         btnAbrirSegundaActividad = findViewById(R.id.btnRegis)
 
-        // Verificar si el usuario ya está autenticado
+
         if (isLoggedIn()) {
             goToMainMenu()
         }
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             if (user != null && user.contraseña == password) {
                 Toast.makeText(this, "Bienvenido", Toast.LENGTH_SHORT).show()
 
-                // Guardar el estado de autenticación
+
                 setLoggedIn(true)
 
                 goToMainMenu()
@@ -81,6 +81,6 @@ class MainActivity : AppCompatActivity() {
     private fun goToMainMenu() {
         val intent = Intent(this, MenuPrincipal::class.java)
         startActivity(intent)
-        finish() // Evitar que el usuario regrese a esta actividad con el botón "Atrás"
+        finish()
     }
 }
