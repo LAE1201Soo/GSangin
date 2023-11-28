@@ -172,21 +172,26 @@ class Pedido1 : AppCompatActivity(), ProductoAdapter.ProductoClickListener, Prep
     }
 
     fun abrirOtraActividad(view: View) {
-        val intent = Intent(this, AnalizarPedido::class.java)
-        intent.putExtra("productosSeleccionados", ArrayList(productosSeleccionados))
-        intent.putExtra("cantidades", ArrayList(cantidades))
-        intent.putExtra("numeroCliente", clienteSeleccionado.id)
-        intent.putExtra("nombreCliente", clienteSeleccionado.nombre)
+        if (productosSeleccionados.isNotEmpty()) {
+            val intent = Intent(this, AnalizarPedido::class.java)
+            intent.putExtra("productosSeleccionados", ArrayList(productosSeleccionados))
+            intent.putExtra("cantidades", ArrayList(cantidades))
+            intent.putExtra("numeroCliente", clienteSeleccionado.id)
+            intent.putExtra("nombreCliente", clienteSeleccionado.nombre)
 
-        val subtotal = calcularPrecioSubtotal()
-        val total = calcularPrecioFinal(subtotal)
+            val subtotal = calcularPrecioSubtotal()
+            val total = calcularPrecioFinal(subtotal)
 
-        val subtotalRedondeado = redondearADosDecimales(subtotal)
-        val totalRedondeado = redondearADosDecimales(total)
+            val subtotalRedondeado = redondearADosDecimales(subtotal)
+            val totalRedondeado = redondearADosDecimales(total)
 
-        intent.putExtra("subtotalRedondeado", subtotalRedondeado)
-        intent.putExtra("totalRedondeado", totalRedondeado)
-        startActivity(intent)
+            intent.putExtra("subtotalRedondeado", subtotalRedondeado)
+            intent.putExtra("totalRedondeado", totalRedondeado)
+            startActivity(intent)
+        } else {
+            // Muestra un mensaje o realiza alguna acción para indicar al usuario que la lista está vacía.
+            Toast.makeText(this, "La lista de productos está vacía", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun redondearADosDecimales(valor: Double): String {
