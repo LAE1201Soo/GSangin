@@ -30,10 +30,11 @@
 
     <Button
         android:id="@+id/btnEnviar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="227dp"
+        android:layout_height="51dp"
         android:layout_marginBottom="32dp"
-        android:text="Enviar"
+        android:backgroundTint="#1CC3D5"
+        android:text="Enviar a Correo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

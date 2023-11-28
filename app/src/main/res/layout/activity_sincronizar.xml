@@ -21,8 +21,10 @@
 
     <Button
         android:id="@+id/btnSincronizarD"
-        android:layout_width="399dp"
+        android:layout_width="0dp"
         android:layout_height="74dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="#0097A7"
         android:fontFamily="sans-serif-black"
         android:text="Obtener datos"
@@ -32,20 +34,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234" />
-
-    <Button
-        android:id="@+id/btnEvioDatos"
-        android:layout_width="399dp"
-        android:layout_height="74dp"
-        android:backgroundTint="#5CCF6C"
-        android:fontFamily="sans-serif-black"
-        android:text="Enviar Datos"
-        android:textSize="20sp"
-        app:icon="@drawable/icons8_subir_a_la_nube_100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.452" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
