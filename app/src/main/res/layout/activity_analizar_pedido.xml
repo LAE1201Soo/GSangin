@@ -18,24 +18,26 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyComfirma"
-        android:layout_width="361dp"
-        android:layout_height="213dp"
+        android:layout_width="293dp"
+        android:layout_height="216dp"
         android:layout_marginTop="180dp"
         android:background="@drawable/bordecito"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.398"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
     <TextView
         android:id="@+id/txtidC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="68dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
@@ -43,10 +45,12 @@
         android:id="@+id/txtN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtidC" />
 
@@ -54,24 +58,29 @@
         android:id="@+id/txtsub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="76dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
         android:text="TextView"
-        android:textSize="14sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyComfirma" />
+        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtN" />
 
     <TextView
         android:id="@+id/txttotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="44dp"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyComfirma"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.723"
+        app:layout_constraintHorizontal_bias="0.116"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtsub" />
+        app:layout_constraintTop_toBottomOf="@+id/txtsub"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btComfirmsrPP"
@@ -81,9 +90,9 @@
         android:text="Confirmar Pedido"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txttotal"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintTop_toBottomOf="@+id/recyComfirma"
+        app:layout_constraintVertical_bias="0.491" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
